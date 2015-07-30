@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Langit</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style media="screen">
+      html, body {
+        color: #fff;
+        height: 100%;
+      }
+
+      body {
+        background: #000;
+      }
+
+      .container {
+        background: rgba(255, 255, 255, 0.1);
+        height: 100%;
+      }
+
+      .text .title {
+        margin-top: 0;
+      }
+    </style>
+  </head>
+  <body>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1>Foo Bar</h1>
+            <br>
+            <div class="row">
+              <div class="col-md-6 media">
+                <img src="" alt="" style="display:none;" class="img img-responsive" />
+                <iframe src="" width="100%" height="70%" style="display: none;"></iframe>
+              </div>
+              <div class="col-md-6 text">
+                <h2 class="title"></h2>
+                <div class="description">
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js" charset="utf-8"></script>
+    <script type="text/javascript">
+      $(function() {
+          var API_KEY = 'WUgzGLFdpkBzLTvg60A7pZzLyGLrzQOVgSdtfbix';
+
+          var BASE_API_URL = {
+            predictSky: 'http://api.predictthesky.org',
+            apod: 'https://api.nasa.gov/planetary/apod'
+          };
+
+          $.get(BASE_API_URL.apod, {concept_tags: 'True', api_key: API_KEY}).success(handleSuccess);
+          $.get(BASE_API_URL.predictSky + '/objects/all').success(function(data) {
+            console.log(data);
+          });
+
+          function handleSuccess(data) {
+            console.log(data);
+            if(data.media_type == "image") {
+              $('.media img').attr('src', data.url).show();
+            } else {
+              $('.media iframe').attr('src', data.url).show();
+            }
+
+            $('.text .title').html(data.title);
+            $('.text .description').html(data.explanation);
+
+            // $('.wrapper').css('background', 'url('+ data.url +') center');
+          }
+
+      });
+    </script>
+  </body>
+</html>
